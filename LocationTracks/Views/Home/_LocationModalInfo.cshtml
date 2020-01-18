@@ -1,0 +1,35 @@
+﻿@model Locations.Models.LocationModel;
+@{
+    Layout = null;
+}
+<style>
+    label {
+        width: 150px;
+    }
+</style>
+@using (Html.BeginForm("UpdateLocation", "Home", FormMethod.Post))
+{
+    <div class="modal-body" style="background-color:#353333;">
+        @Html.HiddenFor(m => Model.Id)
+        <label>Name</label>&nbsp;@Html.TextBoxFor(m => Model.Name) <br />
+        <label>Contact</label>&nbsp;@Html.TextBoxFor(m => Model.Contact)  <br />
+        <label>Email</label>&nbsp;@Html.TextBoxFor(m => Model.Email)  <br />
+        <label>Website</label>&nbsp;@Html.TextBoxFor(m => Model.Website)  <br />
+        <label>Phone</label>&nbsp;@Html.TextBoxFor(m => Model.Phone)  <br />
+        <label>StreetAddress1</label>&nbsp;@Html.TextBoxFor(m => Model.StreetAddress1) <br />
+        <label>StreetAddress2</label>&nbsp;@Html.TextBoxFor(m => Model.StreetAddress2) <br />
+        <label>City</label>&nbsp;@Html.TextBoxFor(m => Model.City) <br />
+        <label>State</label>&nbsp;@Html.TextBoxFor(m => Model.State) <br />
+        <label>Zip</label>&nbsp;@Html.TextBoxFor(m => Model.Zip) <br />
+        <label>Notes</label>&nbsp;@Html.TextBoxFor(m => Model.Notes) <br />
+        <label>LastDropoffDateTime</label>&nbsp;@Html.TextBoxFor(m => Model.LastDropoffDateTime, new { id = "dropOff" }) <br />
+        <label>LastPickUpDateTime</label>&nbsp;@Html.TextBoxFor(m => Model.LastPickUpDateTime, new { id = "pickUp" }) <br />
+        <label>LastOutOfStockDateTime</label>&nbsp;@Html.TextBoxFor(m => Model.LastOutOfStockDateTime, new { id = "outOfStock" }) <br />
+        <label>Unsupportive</label>&nbsp;@Html.TextBoxFor(m => Model.Unsupportive) <br />
+        <label>VolunteerInterest</label>&nbsp;@Html.TextBoxFor(m => Model.VolunteerInterest) <br />
+        <label>Flyers</label>&nbsp;@Html.TextBoxFor(m => Model.Flyers) <br />
+        <label>Posters</label>&nbsp;@Html.TextBoxFor(m => Model.Posters) <br />
+        <label>Petitions</label>&nbsp;@Html.TextBoxFor(m => Model.Petitions) <br />
+    </div>
+    <center><input type="submit" value="Update" class="btn btn-default" style="color:aqua;"></center>
+}

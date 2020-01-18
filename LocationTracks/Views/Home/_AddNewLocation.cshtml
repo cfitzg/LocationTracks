@@ -1,0 +1,44 @@
+﻿@model Locations.Models.LocationModel;
+@{
+    Layout = null;
+}
+
+<style>
+    label {
+        width:150px;
+    }
+</style>
+    <div class="modal fade" id="addNewModal" role="dialog">
+        <div class="modal-dialog" id="addNewModal" style="font-size:11pt; font-weight:bold;">
+            <div class="modal-content" style="background-color:#353333;">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Location</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" sstyle="background-color:#353333;">
+                    <label>Name</label>&nbsp;@Html.TextBoxFor(m => Model.Name) <br />
+                    <label>Contact</label>&nbsp;@Html.TextBoxFor(m => Model.Contact)  <br />
+                    <label>Email</label>&nbsp;@Html.TextBoxFor(m => Model.Email)  <br />
+                    <label>Website</label>&nbsp;@Html.TextBoxFor(m => Model.Website)  <br />
+                    <label>Phone</label>&nbsp;@Html.TextBoxFor(m => Model.Phone)  <br />
+                    <label>StreetAddress1</label>&nbsp;@Html.TextBoxFor(m => Model.StreetAddress1) <br />
+                    <label>StreetAddress2</label>&nbsp;@Html.TextBoxFor(m => Model.StreetAddress2) <br />
+                    <label>City</label>&nbsp;@Html.TextBoxFor(m => Model.City) <br />
+                    <label>State</label>&nbsp;@Html.TextBoxFor(m => Model.State) <br />
+                    <label>Zip</label>&nbsp;@Html.TextBoxFor(m => Model.Zip) <br />
+                    <label>Notes</label>&nbsp;@Html.TextBoxFor(m => Model.Notes) <br />
+                    <label>LastDropoffDateTime</label>&nbsp;@Html.TextBoxFor(m => Model.LastDropoffDateTime, new { id = "dropOff" }) <br />
+                    <label>LastPickUpDateTime</label>&nbsp;@Html.TextBoxFor(m => Model.LastPickUpDateTime, new { id = "pickUp" }) <br />
+                    <label>LastOutOfStockDateTime</label>&nbsp;@Html.TextBoxFor(m => Model.LastOutOfStockDateTime, new { id = "outOfStock" }) <br />
+                    <label>Unsupportive</label>&nbsp;@Html.TextBoxFor(m => Model.Unsupportive) <br />
+                    <label>VolunteerInterest</label>&nbsp;@Html.TextBoxFor(m => Model.VolunteerInterest) <br />
+                    <label>Flyers</label>&nbsp;@Html.TextBoxFor(m => Model.Flyers) <br />
+                    <label>Posters</label>&nbsp;@Html.TextBoxFor(m => Model.Posters) <br />
+                    <label>Petitions</label>&nbsp;@Html.TextBoxFor(m => Model.Petitions) <br />
+                </div>
+                <div class="modal-footer">
+                    <input id="insertLocation" style="color:aqua;" type="submit" value="Add" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>

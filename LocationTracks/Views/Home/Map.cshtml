@@ -1,0 +1,210 @@
+﻿@model Locations.Models.MapsModel;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Locations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</head>
+<body style="color:lawngreen; background-color:#0c0a0a;">
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(
+                document.getElementById('map'),
+                {
+                    center: new google.maps.LatLng(@Model.CenterLat, @Model.CenterLong), //
+                    zoom: 8,
+                    styles: [
+                        { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+                        { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+                        { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
+                        {
+                            featureType: 'administrative.locality',
+                            elementType: 'labels.text.fill',
+                            stylers: [{ color: '#d59563' }]
+                        },
+                        {
+                            featureType: 'poi',
+                            elementType: 'labels.text.fill',
+                            stylers: [{ 'visibility': 'off' }]
+                        },
+                        {
+                            featureType: 'poi.park',
+                            elementType: 'geometry',
+                            stylers: [{ 'visibility': 'off' }]
+                        },
+                        {
+                            featureType: 'poi.park',
+                            elementType: 'labels.text.fill',
+                            stylers: [{ color: '#6b9a76' }]
+                        },
+                        {
+                            featureType: 'road',
+                            elementType: 'geometry',
+                            stylers: [{ color: '#38414e' }]
+                        },
+                        {
+                            featureType: 'road',
+                            elementType: 'geometry.stroke',
+                            stylers: [{ color: '#212a37' }]
+                        },
+                        {
+                            featureType: 'road',
+                            elementType: 'labels.text.fill',
+                            stylers: [{ color: '#212a37' }]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'geometry',
+                            stylers: [{ color: '#006400' }]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'geometry.stroke',
+                            stylers: [{ color: '#006400' }]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'labels.text.fill',
+                            stylers: [{ color: '#32CD32' }]
+                        },
+                        {
+                            featureType: 'transit',
+                            elementType: 'geometry',
+                            stylers: [{ color: '#2f3948' }]
+                        },
+                        {
+                            featureType: 'transit.station',
+                            elementType: 'labels.text.fill',
+                            stylers: [{ 'visibility': 'off' }]
+                        },
+                        {
+                            featureType: 'water',
+                            elementType: 'geometry',
+                            stylers: [{ color: '#17263c' }]
+                        },
+                        {
+                            featureType: 'water',
+                            elementType: 'labels.text.fill',
+                            stylers: [{ color: '#515c6d' }]
+                        },
+                        {
+                            featureType: 'water',
+                            elementType: 'labels.text.stroke',
+                            stylers: [{ color: '#17263c' }]
+                        }
+                    ]
+                }
+            );
+            var pins = @Html.Raw(Json.Serialize(@Model.Locations));
+            for (var i = 0; i < pins.length; i++) {
+                var myLatLng = {
+                    lat: pins[i].lat,
+                    lng: pins[i].long
+                };
+                addMarker(myLatLng, map, pins[i]);
+            }
+        }
+
+        function addMarkerAsync(location, map) {
+            new google.maps.Marker({
+                position: location,
+                title: 'Home Center',
+            });
+            marker.setMap(map);
+        }
+
+        function addMarker(location, map, pin) {
+            var marker = new google.maps.Marker({
+                position: location,
+                title: '......',
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: ''
+            });
+            function AsyncDisplayString() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Home/GetLocationModalInfo',
+                    dataType: "HTML",
+                    contentType: 'application/json',
+                    traditional: true,
+                    data: pin,
+                    success: function (result) {
+                        debugger;
+                        infowindow.setContent('<div style="background-color:#000000;">' + result + '</div>');
+                        infowindow.open(map, marker);
+                    },
+                    error: function (arg) {
+                        alert('Error');
+                    }
+                });
+            }
+            google.maps.event.addListener(marker, 'click', function () {
+                AsyncDisplayString(map, marker)
+            });
+            marker.setMap(map);
+        }
+    </script>
+    <script asyc defer src="https://maps.googleapis.com/maps/api/js?key=@Model.KeyString&callback=initMap">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#addNew').click(function () {
+                $("#addNewModal").modal();
+                $("#outOfStock").datepicker();
+                $("#pickUp").datepicker();
+                $("#dropOff").datepicker();
+            });
+        });
+    </script>
+    @using (Html.BeginForm("AddLocation", "Home", FormMethod.Post))
+    {
+        LocationModel location = new LocationModel() { AllTimeOutOfStock = 0, Contact = "Some Supporter/Customer/Important Contact", Email = "person@gmail.com", Website = "https://www.vote.org/register-to-vote", Type = 1, Flyers = 100, LastDropoffDateTime = Convert.ToDateTime(DateTime.Now.ToShortDateString()), LastOutOfStockDateTime = Convert.ToDateTime(DateTime.Now.ToShortDateString()), LastPickUpDateTime = Convert.ToDateTime(DateTime.Now.ToShortDateString()), Name = "Test Location for Debugging", Notes = "Here are some notes about this place...", Petitions = 100, Posters = 100, Phone = "414.000.1111", StreetAddress1 = "One Brewers Way", StreetAddress2 = "", City = "Milwaukee", State = "WI", Zip = "53235", Unsupportive = false, VolunteerInterest = false };
+        @await Html.PartialAsync("../Home/_AddNewLocation.cshtml", location);
+<div style="padding-top:10px; padding-left:15px; height:45px;">
+    <button id="addNew" type="button">Add Location</button>
+    <div style="float:right; right:10px; border:2px solid #0894fd; margin-right:10px; border-radius:5% 5% 5% 5%;">
+        <a href="https://www.vote.org/register-to-vote"><img src="https://media1.fdncms.com/orlando/imager/u/original/2538236/ballot-box.jpg" height="50" width="50" /></a>
+    </div>
+</div>
+    }
+    @using (Html.BeginForm("GetMap", "Home", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.CenterLat)
+        @Html.HiddenFor(x => x.CenterLong)
+        @Html.HiddenFor(x => x.Locations)
+        @Html.HiddenFor(x => x.KeyString)
+        <center>
+            <div id="adminArea" style="padding-bottom:15px;">
+                Search by Address or Location name:&nbsp;&nbsp;@Html.TextBoxFor(x => x.SearchString)&nbsp;&nbsp;<input id="searchButton" type="submit" value="Search" />
+            </div>
+        </center>
+    }
+    <div id="map" style="height:86%;">
+    </div>
+</body>
+</html>
